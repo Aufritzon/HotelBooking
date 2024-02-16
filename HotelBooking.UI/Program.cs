@@ -1,3 +1,6 @@
+using HotelBooking.BLL;
+using HotelBooking.DAL.Interfaces;
+
 namespace HotelBooking.UI
 {
     public class Program
@@ -5,6 +8,10 @@ namespace HotelBooking.UI
         public static void Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
+
+            builder.Services.AddScoped<IBookingService, BookingService>();
+            builder.Services.AddScoped<IBookingRepository, BookingRepository>();
+            builder.Services.AddScoped<IRoomRepository, RoomRepository>();
 
             // Add services to the container.
             builder.Services.AddRazorPages();
