@@ -9,6 +9,7 @@ namespace HotelBooking.UI.Pages
     public class IndexModel : PageModel
     {
         private readonly IBookingService _bookingService;
+        public string? ErrorMessage { get; set; }
         public List<Room> Rooms { get; set; } = new List<Room>();
         [BindProperty]
         public int SelectedRoomNumber { get; set; }
@@ -27,9 +28,13 @@ namespace HotelBooking.UI.Pages
 
         public void OnGet()
         {
-            if (StartDate != DateOnly.MinValue && EndDate != DateOnly.MinValue && Type != RoomType.None)
+            try
             {
                 Rooms = _bookingService.GetAvailableRoomsByType(Type, StartDate, EndDate);
+            } 
+            catch(ArgumentException ex)
+            {
+                ErrorMessage= ex.Message;
             }
         }
        
